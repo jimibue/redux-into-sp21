@@ -1,11 +1,29 @@
 import React from 'react';
+import {connect} from 'react-redux'
 
-const Footer = () => {
+const Footer = (props) => {
+    const setFilter = (filter)=>{
+        props.dispatch({type:'SET_FILTER', filter: filter})
+    }
+
+    const getStyle = (filter) => {
+        if( props.filter === filter){
+            return {border:'3px solid'}
+        } else {
+            return {}
+        }
+    }
   return (
     <div>
-        Footer
+        <div style={getStyle('all')} onClick={()=> setFilter('all')}>all</div>
+        <div style={getStyle('completed')}  onClick={()=> setFilter('completed')} >completed</div>
+        <div style={getStyle('incomplete')}  onClick={()=> setFilter('incomplete')} >incomplete</div>
     </div>
   )
 }
 
-export default Footer;
+const mapStateToProps = (state)=>{
+    return {filter: state.filter}
+}
+
+export default connect(mapStateToProps)(Footer)
